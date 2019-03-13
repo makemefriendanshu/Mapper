@@ -1,0 +1,3 @@
+%{
+  "mnemonix": {:hex, :mnemonix, "0.10.0", "83063be21c787181fa7c012ce61cfedbd82982af49bfb0f912b25415c226b048", [:mix], [], "hexpm"},
+}
