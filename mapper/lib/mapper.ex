@@ -1,15 +1,35 @@
 defmodule Mapper do
   def transform(value) do
-    Enum.map(String.graphemes(value), fn c ->
-      if(c == "a") do
-        "A"
-      else
-        c
-      end
+    Enum.map(String.graphemes(value), fn
+      c when c == "a" -> "2"
+      c when c == "b" -> "2"
+      c when c == "c" -> "2"
+      c when c == "d" -> "3"
+      c when c == "e" -> "3"
+      c when c == "f" -> "3"
+      c when c == "g" -> "4"
+      c when c == "h" -> "4"
+      c when c == "i" -> "4"
+      c when c == "j" -> "5"
+      c when c == "k" -> "5"
+      c when c == "l" -> "5"
+      c when c == "m" -> "6"
+      c when c == "n" -> "6"
+      c when c == "o" -> "6"
+      c when c == "p" -> "7"
+      c when c == "q" -> "7"
+      c when c == "r" -> "7"
+      c when c == "s" -> "7"
+      c when c == "t" -> "8"
+      c when c == "u" -> "8"
+      c when c == "v" -> "8"
+      c when c == "w" -> "9"
+      c when c == "x" -> "9"
+      c when c == "y" -> "9"
+      c when c == "z" -> "9"
+      x -> x
     end)
     |> Enum.reduce(fn x, acc -> acc <> x end)
-
-    # value
   end
 
   def prepare_dictionary do
@@ -32,9 +52,9 @@ defmodule Mapper do
     # Enum.reduce(list, %{}, fun [h|t] -> {h, &string_to_digit(h)})
   end
 
-  def lookup() do
-    prepare_dictionary()
-    store = Mnemonix.new(fizz: 1)
+  def lookup(phone) do
+    list = prepare_dictionary()
+    store = Mnemonix.new()
     Mnemonix.get(store, :fizz)
   end
 end
