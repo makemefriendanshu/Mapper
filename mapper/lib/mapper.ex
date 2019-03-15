@@ -1,4 +1,17 @@
 defmodule Mapper do
+  def transform(value) do
+    Enum.map(String.graphemes(value), fn c ->
+      if(c == "a") do
+        "A"
+      else
+        c
+      end
+    end)
+    |> Enum.reduce(fn x, acc -> acc <> x end)
+
+    # value
+  end
+
   def prepare_dictionary do
     file = "dictionary/dictionary.txt"
 
@@ -7,23 +20,16 @@ defmodule Mapper do
       IO.inspect(content)
     end
 
-    words =
+    list =
       File.stream!(file)
-      |> Stream.map(&String.trim_trailing/1)
+      |> Stream.map(&String.trim_trailing(&1, "\n"))
+      |> Stream.filter(&(String.length(&1) < 11))
+      |> Stream.filter(&(String.length(&1) >= 3))
+      |> Stream.map(&String.downcase(&1))
+      |> Stream.map(&{&1, transform(&1)})
       |> Enum.to_list()
-      |> List.to_tuple()
-      |> IO.puts()
 
-    case File.read(file) do
-      {:ok, body} ->
-        String.split(body)
-        |> length
-        |> IO.puts()
-
-      {:error, reason} ->
-        "Could not read file #{file} because #{reason}"
-        |> IO.puts()
-    end
+    # Enum.reduce(list, %{}, fun [h|t] -> {h, &string_to_digit(h)})
   end
 
   def lookup() do
