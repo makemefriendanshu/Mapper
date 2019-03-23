@@ -11,4 +11,5 @@ Mapper.lookup(phonenumber)
 ```elixir
 iex -S mix
 Mapper.prepare_dictionary()
+Mapper.lookup(2282668687)
 ```
