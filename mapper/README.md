@@ -1,11 +1,5 @@
 # Mapper
 
-## TODO
-
-```elixir
-Mapper.lookup(phonenumber)
-```
-
 ## Usage
 
 ```elixir
