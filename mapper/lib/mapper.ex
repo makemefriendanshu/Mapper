@@ -69,47 +69,63 @@ defmodule Mapper do
     store
   end
 
-  def lookup(phone) do
-    store = prepare_dictionary()
-    phone = Kernel.inspect(phone)
-
+  def patterns(store, phone) do
     if(!(phone =~ "0" || phone =~ "1")) do
-      {
-        2..6
-        |> Enum.map(fn n ->
-          sub = String.slice(phone, 0..n)
-          {sub |> String.to_atom(), String.replace(phone, sub, "") |> String.to_atom()}
-        end)
-        |> Enum.map(fn {w, x} ->
-          {Mnemonix.get(store, w), Mnemonix.get(store, x)}
-        end)
-        |> Enum.map(fn
-          {k, v} ->
-            if(k != nil && v != nil) do
-              if(is_binary(k) && is_binary(v)) do
-                [k] ++ [v]
-              else
-                if(is_list(k) || is_list(v)) do
-                  if(is_list(k) && is_list(v)) do
-                    Enum.reduce(k, [], fn k, acc ->
-                      acc ++ Enum.map(v, fn x -> [k] ++ [x] end)
-                    end)
+      2..6
+      |> Enum.map(fn n ->
+        sub = String.slice(phone, 0..n)
+        {sub |> String.to_atom(), String.replace(phone, sub, "") |> String.to_atom()}
+      end)
+      |> Enum.map(fn {w, x} ->
+        {Mnemonix.get(store, w), Mnemonix.get(store, x)}
+      end)
+      |> Enum.map(fn
+        {k, v} ->
+          if(k != nil && v != nil) do
+            if(is_binary(k) && is_binary(v)) do
+              [k] ++ [v]
+            else
+              if(is_list(k) || is_list(v)) do
+                if(is_list(k) && is_list(v)) do
+                  Enum.reduce(k, [], fn k, acc ->
+                    acc ++ Enum.map(v, fn x -> [k] ++ [x] end)
+                  end)
+                else
+                  if(is_list(k)) do
+                    Enum.reduce(k, [], fn k, acc -> acc ++ [[k] ++ [v]] end)
                   else
-                    if(is_list(k)) do
-                      Enum.reduce(k, [], fn k, acc -> acc ++ [[k] ++ [v]] end)
-                    else
-                      Enum.reduce(v, [], fn v, acc -> acc ++ [[k] ++ [v]] end)
-                    end
+                    Enum.reduce(v, [], fn v, acc -> acc ++ [[k] ++ [v]] end)
                   end
                 end
               end
             end
+          end
+      end)
+      |> Enum.filter(&(!is_nil(&1)))
+      |> List.flatten()
+      |> Enum.chunk_every(2)
+      |> Enum.to_list()
+    end
+  end
+
+  def lookup(phone) do
+    store = prepare_dictionary()
+    phone = Kernel.inspect(phone)
+    direct = Mnemonix.get(store, phone |> String.to_atom())
+    list = patterns(store, phone)
+
+    if(direct != nil) do
+      [s] =
+        list
+        |> Enum.map(fn [h, k] ->
+          if(h <> k == direct) do
+            [h, k]
+          end
         end)
         |> Enum.filter(&(!is_nil(&1)))
-        |> Enum.to_list()
-        |> List.flatten()
-        |> Enum.chunk_every(2)
-      }
+
+      list = list |> List.delete(s)
+      list ++ [direct]
     end
   end
 end
