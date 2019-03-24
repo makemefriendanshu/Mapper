@@ -1,3 +1,4 @@
 %{
   "mnemonix": {:hex, :mnemonix, "0.10.0", "83063be21c787181fa7c012ce61cfedbd82982af49bfb0f912b25415c226b048", [:mix], [], "hexpm"},
+  "timing": {:git, "git://github.com/Primordus/Timing.git", "d129f01fdfb22e05564195af99e12cf79610afbe", []},
 }

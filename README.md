@@ -14,13 +14,14 @@ The phone number mapping to letters is as follows:
 7 = p q r s
 8 = t u v
 9 = w x y z
- 
-The phone numbers will never contain a 0 or 1. 
+
+The phone numbers will never contain a 0 or 1.
 Words have to be at least 3 characters.
 
 To get give you an initial verification, the following must be true:
 
 6686787825 should return the following list [["motor", "usual"], ["noun", "struck"], ["nouns", "truck"], ["nouns", "usual"], ["onto", "struck"], "motortruck"]
+
 2282668687 should return the following list [["act", "amounts"], ["act", "contour"], ["acta", "mounts"], ["bat", "amounts"], ["bat", "contour"], ["cat", "contour"], "catamounts"]
 
 The conversion of a 10 digit phone number should be performed within 1000ms.

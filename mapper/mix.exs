@@ -21,7 +21,8 @@ defmodule Mapper.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-       {:mnemonix, "~> 0.10.0"}
+      {:mnemonix, "~> 0.10.0"},
+      {:timing, git: "git://github.com/Primordus/Timing.git"}
     ]
   end
 end
