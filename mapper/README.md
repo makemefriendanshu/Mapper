@@ -22,6 +22,6 @@ Mapper.lookup(6686787825)
 mix test --trace
 
 MapperTest
-  * test lookup for 2282668687 (2179.1ms)
-  * test lookup for 6686787825 (2029.9ms)
+  * test lookup for 2282668687 (1199.5ms)
+  * test lookup for 6686787825 (1048.6ms)
 ```
